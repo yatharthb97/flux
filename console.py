@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from collections import deque
 import os
 
@@ -6,15 +8,13 @@ import os
 class LinesBuffer:
 	"""Defines a buffer of lines."""
 	
-	def __init__(self, lines):
-		self.buffer = deque(maxlen=lines)
-
-		# Fill buffer with generator
-		self.buffer.
-		
-
+	def __init__(self, ratio):
+		cols, lines = os.get_terminal_size()
+		lines = lines * float(ratio[0]) / ratio[1]
+		self.no_lines = deque(maxlen=lines)
+	
 	def add(string):
-		self.buffer.append_left(string) 
+		self.no_lines.append_left(string) 
 		self.capacity = (self.capacity + 1) % max_cap
 
 
@@ -24,13 +24,13 @@ class LinesBuffer:
 
 		#Ignore change in x for now. #TODO
 
-		self.buffer = deque(itertools.islice(self.buffer))
-		self.buffer.maxlen(self.size[1])
+		self.no_lines = deque(itertools.islice(self.no_lines))
+		self.no_lines.maxlen(self.size[1])
 
 	def get_lines(self, resource, resource_lock):
 		resource_lock.lock();
-		resource.extend(self.buffer)
-		resource_lock.release():
+		resource.extend(self.no_lines)
+		resource_lock.release()
 
 
 # Object that manages the view and `parsar`.
@@ -44,7 +44,7 @@ class ConsoleManager:
 
 		self.console = Console() #For parse user input
 
-		self.header = LinesBuffer([1,8]) # <- Ratio of screen (in y)
+		self.header = LinesBuffer([1,8]) # <- 1/8 Ratio of screen (in y)
 		self.data = LinesBuffer([5,8]) # <- Ratio of screen (in y)
 		self.consolelog = LinesBuffer([2,8]) # <- Ratio  of screen (in y)
 		self.printlist = [self.header, self.data, self.consolelog]
@@ -80,7 +80,7 @@ class ConsoleManager:
 		self.data.add(string)
 
 
-	def set_header(string):
+	def set_header(self, string):
 		self.header.add(string)
 
 	#For erasing lines
@@ -109,3 +109,9 @@ class ConsoleManager:
 ##     ∟ ACK / NACK machine (with context management)
 
 
+
+
+fruitlist = ["apple", "orange", "banana"]
+
+for fruit in fruitlist:
+	print(fruit)
