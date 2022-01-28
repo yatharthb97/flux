@@ -4,33 +4,7 @@ from collections import deque
 import os
 
 
-# A simple list of lines
-class LinesBuffer:
-	"""Defines a buffer of lines."""
-	
-	def __init__(self, ratio):
-		cols, lines = os.get_terminal_size()
-		lines = lines * float(ratio[0]) / ratio[1]
-		self.no_lines = deque(maxlen=lines)
-	
-	def add(string):
-		self.no_lines.append_left(string) 
-		self.capacity = (self.capacity + 1) % max_cap
 
-
-	def resize(self):
-		w_size = list(os.get_terminal_size()) #[x, y]
-		self.size[1] = int(math.floor(self.ratio[0]/self.ratio[1])) * w_size[1]
-
-		#Ignore change in x for now. #TODO
-
-		self.no_lines = deque(itertools.islice(self.no_lines))
-		self.no_lines.maxlen(self.size[1])
-
-	def get_lines(self, resource, resource_lock):
-		resource_lock.lock();
-		resource.extend(self.no_lines)
-		resource_lock.release()
 
 
 # Object that manages the view and `parsar`.
