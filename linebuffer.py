@@ -2,6 +2,7 @@
 
 from collections import deque
 import os
+import math
 
 
 class LinesBuffer:
@@ -21,7 +22,7 @@ class LinesBuffer:
 		"""
 		Add line to the buffer.
 		"""
-		self.buffer.append_left(string)
+		self.buffer.appendleft(string)
 
 
 	def resize(self, ratio):
