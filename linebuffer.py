@@ -3,6 +3,7 @@
 from collections import deque
 import os
 import math
+from turtle import color
 
 
 class LinesBuffer:
@@ -10,19 +11,22 @@ class LinesBuffer:
 	A collection of lines which is stored in a circular buffer.
 	Has functionality to preprocess lines.
 	"""
-	
-	def __init__(self, ratio):
+
+	def simple(self, x):
+		return x
+
+	def __init__(self, ratio = 1, lines = None):
 		cols, tot_lines = os.get_terminal_size()
 		lines = tot_lines * float(ratio[0]) / ratio[1]
 		self.buffer = deque(maxlen=lines)
 
-		self.preprocessors = lambda x : x
+		self.preprocessors = [self.simple]
 	
 	def add(self, string):
 		"""
 		Add line to the buffer.
 		"""
-		self.buffer.appendleft(string)
+		self.buffer.append(string)
 
 
 	def resize(self, ratio):
@@ -43,4 +47,8 @@ class LinesBuffer:
 		"""
 
 		# Apply preprocessor to every string in the buffer.
-		return list(self.buffer)
+
+		lines = list(self.buffer)
+		for i in range(len(self.preprocessors)):
+			lines = [self.preprocessors[i](line) for line in lines ]
+		return lines
