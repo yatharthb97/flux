@@ -5,7 +5,7 @@ objects.
 
 """
 
-import pickle
+import dill
 import pandas as pd
 
 # Importing the data
@@ -17,13 +17,13 @@ x = dataset.iloc[:, -1].values
 
 def save_data(a):
     with open("c:/Users/RD/Documents/GitHub/pyConsole/array.pkl", "wb") as o:
-        pickle.dump(a, o)
+        dill.dump(a, o)
 
 save_data(x)
 
 def load_data():
     with open("c:/Users/RD/Documents/GitHub/pyConsole/array.pkl", "rb") as o:
-        load = pickle.load(o)
+        load = dill.load(o)
     return load
 
 store = load_data()
