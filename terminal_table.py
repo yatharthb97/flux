@@ -16,14 +16,15 @@ X = dataset.iloc[:, :].values
 t = PrettyTable()
 
 # names = ['Country', 'age', 'salary', 'Purchased']
-tab = [[]]
 
 # Pretty Table
 for i in range(0, 9568):
-    for j in range(0, 16):
-        t.add_row(list(X[:][j+i]))
-    T.sleep(1)
+    for j in range(i, 16 + i):
+        t.add_row(list(X[:][j]))
     print(Fore.GREEN + str(t), end = "\r")
+    t.clear_rows()
+    T.sleep(0.5)
+    subprocess.call('clear', shell=True)
 
 """
 The total space that is aquired by the terminal table is number of entries + 4, this bit of information
