@@ -17,12 +17,12 @@ import collections as col
 import subprocess
 import dill
 from colorama import Fore
+from pyfiglet import Figlet
 
 # Clear the screen
 subprocess.call('clear', shell=True)
 
 # Welcome Text
-from pyfiglet import Figlet
 f = Figlet(font='slant')
 print(Fore.GREEN + f.renderText('Welcome to pyConsole'))
 
