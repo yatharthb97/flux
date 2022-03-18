@@ -1,0 +1,31 @@
+******************************************************************************
+                           specification-LineBuffer
+******************************************************************************
+
+
+0. LineBuffer is a type of `DataSubscriber` class that holds data and returns a formatted list of data lines. It will be primarily used by the pyConsole terminal class to hold a fixed sized buffer of lines to print. Since, it is a type of `Datasubscriber` class, its constitution will be a prototype for a generic data-subscriber class.
+1. It has functions and attributes
+2. Function ⯈ write(line) ⯈ writes a line to the Linebuffer.
+3. Function ⯈ read(no_lines) ⯈ reads lines from the LineBuffer. (returns the raw buffer without formatting)
+4. Function output(no_lines) ⯈ returns a formatted list of lines.
+5. Function -> __str__() returns a string of the list of the raw buffer.
+6. Function __repr__() returns a string of the `formatted` buffer.
+7. line, no_lines are keyword arguments.
+8. Function ⯈ export(filename, mode, raw=True) ⯈ exports the linebuffer to a file.
+9. Function ⯈ import(filename, resize=False, preprocess_fn=None) ⯈ imports data lines from a file. If `preprocess_fn` is not None, then this function is applies to all lines before appending to the LineBuffer.
+10. Alias LineBuffer ⟹  LB.
+11. Attribute ⯈ LB.formatters ⯈ list of functions that are applied sequentially to each line.
+12. Attribute ⯈ LB.updated ⯈ indicates whether an update took place. This boolean flag is reset by output() or reset_flag() function.
+13. Function ⯈ page() ⯈ equivalent to __repr__().
+14. Attribute ⯈ LB.last_page ⯈ Stores a copy of the last page. LB.last_page is updated by either a call to __repr__() or output.
+15. Function ⯈ write(list) ⯈ appends the list (using extend() method) to the buffer.
+16. Special list-managers ::
+17. Function ⯈ freeze_first() ⯈ Freezes the first line after it is added.
+18. Function ⯈ first() ⯈ returns the first data line in the buffer.
+19. Function ⯈ last() ⯈ returns the last data line in the buffer.
+20. Higher Level Operations :: private scope
+21. Function format_line(line) ⯈ returns the formatted line.
+22. Function ⯈ resize(no_lines) ⯈ Resizes the circular buffer.
+23. ⟶  Note ⟵  : Remove the ratio inputs from resize() and __init__().
+
+><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><

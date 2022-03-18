@@ -2,6 +2,8 @@
 
 
 
+**Check: [specification-LineBuffer.txt](specification-LineBuffer.txt)** .
+
 `pyConsole` is planned to be a python library that would serve as ageneric utility for CLI python appications. The aim of this library is to provide some high level functionality that is currently not addressed by any other libraries. The primary motivation behind this library has been to differentate and parse different information sets arriving at a single port. To illustrate, let us consider a `Serival-device`  which **transmits** in different `channels`:
 
 1. Data
