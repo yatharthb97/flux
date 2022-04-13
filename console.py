@@ -84,8 +84,3 @@ class ConsoleManager:
 
 
 
-
-fruitlist = ["apple", "orange", "banana"]
-
-for fruit in fruitlist:
-	print(fruit)
