@@ -1,6 +1,6 @@
-# pyConsole : Concept and Construcion
+# Flux: A data flow model
 
-
+**Formally: pyConsole : Concept and Construction.**
 
 **Check: [specification-LineBuffer.txt](specification-LineBuffer.txt)** .
 

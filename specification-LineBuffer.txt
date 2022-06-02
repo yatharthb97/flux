@@ -32,3 +32,12 @@
 ><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><
 
 Any class C: C is a DataSubscriber class if it has the above specification.
+
+
+
+HDF5/ASCII/.pkl/.npy -> DataSubscribes (Archive)
+             -> DataSubscriber (Line-Buffer)
+             -> DataSubscriber (Plotting)
+             -> DataSubscriber (RT Dashboards - plotly)
+             -> DataSubscriber (localhost, remotewebsite -> transmit data)
+             -> DataSubscriber (SerialDevice)
