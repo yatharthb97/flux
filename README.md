@@ -110,7 +110,7 @@ console.input() #Takes the user input
 
 Specific functions and detailed explainations:
 
-#### `add_remote_cmd()` 
+#### `add_remote_cmd()`
 
 Adds a command that when recognised is sent to the remote device.  The string is split into arguemnts (tokenization) and the first token is checked for valid tokens. The rest of the tokens are packaged as it is and sent with the first token.
 
