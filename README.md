@@ -1,10 +1,10 @@
-# Flux: A data flow model
+ ## Flux: A data flow model
 
 **Formally: pyConsole : Concept and Construction.**
 
 **Check: [specification-LineBuffer.txt](specification-LineBuffer.txt)** .
 
-`pyConsole` is planned to be a python library that would serve as ageneric utility for CLI python appications. The aim of this library is to provide some high level functionality that is currently not addressed by any other libraries. The primary motivation behind this library has been to differentate and parse different information sets arriving at a single port. To illustrate, let us consider a `Serival-device`  which **transmits** in different `channels`:
+`flux`: The primary motivation behind this library has been to differentate and parse different information sets arriving at a single port. To illustrate, let us consider a `Serival-device`  which **transmits** in different `channels`:
 
 1. Data
 2. Meta-data (information about the current device state)
@@ -98,66 +98,6 @@ lb.formatters #List of formatting functions that conditions the output texts
 
 
 
-### `class Console` (Concept ill-formed)
-
-The main component of the library. It is the object that handles the IO from the user and process it. Some functions:
-
-```
-console.input() #Takes the user input
-```
-
-
-
-Specific functions and detailed explainations:
-
-#### `add_remote_cmd()`
-
-Adds a command that when recognised is sent to the remote device.  The string is split into arguemnts (tokenization) and the first token is checked for valid tokens. The rest of the tokens are packaged as it is and sent with the first token.
-
-The commands could also be preprocessed before sending to discrete arguemnts:
-
-```python
-select 1,2,3 -> "select_1\n", "select_2\n", "select_3\n"
-```
-
-For similar preprocessing, a set of generic preprocessing functions will be included later with the package.
-
-#### `add_sys_cmd()`
-
-Adds a command that is passed to the system as a `subprocess` and is executed on the host machine.
-
-#### `linux_core_cmd_list`
-
-Stores a list of commands that are valid on a linux terminal by doing a directory walk of the `$PATH` environment variable. (similar lists for `Windows` host machine.)
-
-#### ` operator >>`
-
-If precided by this operator, the string is sent to the current python interpretor. For this feature to work, multi-threading has to be inbuilt in the application. All reading would happen on a seperate thread, while a listener thread would execute the python interpretor commands.
-
-Hence, this console is an object that  integrates all distinct terminal features into one `pseudoterminal` .
-
-
-
-### `class ConsoleManager`
-
-A wrapper class that countains the `Consle` object, the line-buffers and all other entities. It is the meta-class that is created by the user and contains all the other components. List of functions:
-
-```python
-cm.create_page() #Create a page to be printed on the terminal
-cm.current_page
-cm.last_page
-cm.line_header
-```
-
-
-
-## Bookeeping
-
-#### `class ACKstore`
-
-ACKStore or Acknowledgement store is an object that binds with remote device meta-data channel and keeps track of the commands sent to the reomote device and tracks the **acknowledged (ACK)** or **not-acknowledged (NACK)**, and **complete (COMP)** or **not-complete (NCOMP)** signals.
-
-To implement this feature, the channel object interacts with the ACKStore object and periodic updates are issued to the user log about the same. Each object also needs to be time-tagged for checking reception timeouts.
 
 
 
