@@ -6,6 +6,8 @@ A Data Subscriber that stores received data in a specified file format.
 .txt (ascii), .pkl, .npy, .hd5 (HDF5)
 """
 
+from os import path
+import numpy as np
 
 class Archive:
 
@@ -15,7 +17,7 @@ class Archive:
 
 	def __init__(self, filename, mode='w+', buffering=-1, **kwargs):
 		
-		self.filename = oss.path.abspath(filename)
+		self.filename = path.abspath(filename) 
 		self.mode = mode
 		self.file = open(filename, self.mode, buffering=buffering, **kwargs)
 
@@ -30,19 +32,21 @@ class Archive:
 		"""
 		Write a line to a file.
 		"""
-		if filename.closed:
-			filename.open()
-		self.file.write(datum)
+		if not self.file.closed:
+			self.file.write(datum)
 
 
-	def read(self, lines=None):
+	def read(self, lines = None):
 		if self.file.readable():
 			self.file.flush()
 			current_pos = self.file.tell()
 
-			self.file.seek(self.start_pos)
+			# TODO: Discuss if readable items should be in a list or just normal strings.
+			# If normal then only the read() function will suffice.
+
+			self.file.seek(self.start_pos) 
 			if lines != None:
-				rd = self.file.readlines(hint=lines)
+				rd = self.file.readlines(lines)
 			else:
 				rd = self.file.read()
 
@@ -50,7 +54,7 @@ class Archive:
 			return rd
 
 
-	def output(self, out=None):
+	def output(self, out = None):
 		"""
 		Returns the contents of the file as a string. Return all contents and be terminal friendly.
 		TODO: Check with binary.
@@ -74,6 +78,8 @@ class Archive:
 		"""
 		Closes the file.
 		"""
+		#TODO: Discuss the purpose of this function
+
 		self.file.flush()
 		self.file.close()
 
@@ -90,6 +96,7 @@ class Archive:
 
 	# Factory Specializations
 
+	@staticmethod
 	def Binary(filename, **kwargs):
 		arch = Archive(filename, mode='wb+', **kwargs)
 		return arch
@@ -99,15 +106,16 @@ class Archive:
 	def Type(string):
 		string = string.lower()
 
+		HDF5 = ArchiveHDF5()
 		if string == 'hd5':
 			return ArchiveHDF5()
 
-
+"""
 class ArchiveNPY:
 	
-	def __init__(filename, buffer_size=None, data=None, dtype=None):
+	def __init__(self, filename, buffer_size=None, data=None, dtype=None):
 		self.filename = filename
-		self.file = open(file, 'w') #Open in write-only mode.
+		self.file = open(self.filename, 'w') #Open in write-only mode.
 
 		if buffer_size == None:
 			self.buff_size = 64
@@ -128,9 +136,10 @@ class ArchiveNPY:
 			self.data.resize(self.buff_size, refcheck=self.object_type)
 
 	def read(self, lines, back=True):
-		"""
-		Reads `lines` number of lines/entries from the data buffer.
-		"""
+		
+		
+		# Reads `lines` number of lines/entries from the data buffer.
+		
 		pass
 
 	def write(self, datum):
@@ -147,40 +156,37 @@ class ArchiveNPY:
        		element[...] = datum[i]
 
 	def output(self):
-		"""
-		Returns a deepcopy of the held data.
-		"""
+		
+		# Returns a deepcopy of the held data.
+		
 		return self.data.copy()
 
 	def data_import(self, filename, overrides=True):
-		"""
-		Import a numpy format file to the Archive.
-		overrides: True → Adopt the data formatting of the data being imported.
-		"""
+		
+		# Import a numpy format file to the Archive.
+		# overrides: True → Adopt the data formatting of the data being imported.
+		
 
 	def data_export(self, filename):
-		"""
-		Save the held data into a numpy binary format file.
-		"""
+		
+		# Save the held data into a numpy binary format file.
+		
 		np.save(filename, self.data[:self.size], allow_pickle=True)
 
 
 
 
-class ArchiveHDF5(Archive):
+class ArchiveHDF5:
+	def __init__(self) -> None:
+		print('For HDF5 files only')
+	
+	def read():
+		pass
 	
 
 
 class ArchivePickle:
 	pass
-
-
-
-
-
-
-
-
 
 
 
@@ -194,3 +200,4 @@ class LineBuffer:
 		return lb
 
 	self.formatters = []
+"""

@@ -1,0 +1,5 @@
+hello 
+My name is 
+Vaibhav 
+Nice to meet you
+Convert this into binary
