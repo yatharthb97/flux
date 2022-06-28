@@ -23,6 +23,16 @@ arc.data_import('data_import.txt')
 bin = arc.Binary('data_import.txt')
 bin.write(b'This is a binary file')
 
+#CSV file
+
+dir = {}
+x = [1, 2, 3, 4, 5]
+y = ['one', 'two', 'three', 'four', 'five']
+
+for i in range(5):
+    dir[x[i]] = y[i]
+
+
 
 
 
