@@ -8,6 +8,7 @@ A Data Subscriber that stores received data in a specified file format.
 
 from os import path
 import numpy as np
+import pandas as pd
 
 class Archive:
 
@@ -26,6 +27,11 @@ class Archive:
 		# Archive must be writable atlease.
 		if not self.file.writable():
 			raise Exception(f"File Archive is not writable. Check file modes.")
+
+		# If the file type is .hd5
+		self.filetype = path.splitext(filename)
+		if self.filetype[1] == '.hd5':
+			return 'Use ArchiveHDF5 instead'
 
 		
 	def write(self, datum):
@@ -98,22 +104,46 @@ class Archive:
 
 	@staticmethod
 	def Binary(filename, **kwargs):
-		arch = Archive(filename, mode='wb+', **kwargs)
+		arch = Archive(filename, mode = 'wb+', **kwargs)
 		return arch
 		
-
+	# This function can be written in the __init__ without asking the user the type of the function 
+	"""
 	#Abstract factory interface
 	def Type(string):
 		string = string.lower()
-
-		HDF5 = ArchiveHDF5()
 		if string == 'hd5':
-			return ArchiveHDF5()
+			return ArchiveHDF5 # In order for this to work, this class needs to be above the Archive class. 
+	"""
 
-"""
+class ArchiveCSV(Archive):
+
+	def write(self, line_buffer_2d, channels):
+		self.line_buffer_2d = line_buffer_2d
+		self.channels = channels
+
+		if not self.file.closed and self.filetype[1] == '.csv':
+			dir = {}
+			for channel in range(Linebuffer.no_of_channels()):
+				dir[channels[channel]] = line_buffer_2d[channel]
+			self.out = pd.DataFrame(data = dir)
+			self.out.to_csv(self.filename, index = False)
+
+	def read(self, info = False, nd_array = False):
+		self.out.head()
+
+		if info:
+			self.out.info()
+		if nd_array:
+			data = self.out.iloc[:,:].values
+			print(data)
+
+
+
+
 class ArchiveNPY:
 	
-	def __init__(self, filename, buffer_size=None, data=None, dtype=None):
+	def __init__(self, filename, buffer_size = None, data = None, dtype = None):
 		self.filename = filename
 		self.file = open(self.filename, 'w') #Open in write-only mode.
 
@@ -122,7 +152,7 @@ class ArchiveNPY:
 		else:
 			self.buff_size = buffer_size
 
-		if dtype==None:
+		if dtype == None:
 			dtype = data.dtype
 			self.object_type = isinstance(data, object)
 		else:
@@ -130,12 +160,12 @@ class ArchiveNPY:
 		self.dtype = dtype
 
 		if data != None:
-			self.data = np.ndarray(data, dtype=self.dtype)
+			self.data = np.ndarray(data, dtype = self.dtype)
 		else:
 			self.data = np.full(self.size, fill_value=np.nan, dtype=self.dtype)
 			self.data.resize(self.buff_size, refcheck=self.object_type)
 
-	def read(self, lines, back=True):
+	def read(self, lines, back = True):
 		
 		
 		# Reads `lines` number of lines/entries from the data buffer.
@@ -200,4 +230,3 @@ class LineBuffer:
 		return lb
 
 	self.formatters = []
-"""
